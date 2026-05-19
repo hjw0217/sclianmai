@@ -45,7 +45,7 @@ export async function POST(request: Request) {
 
     if (action === 'delete') {
       const { deleteTimeSlot } = await import('@/lib/store');
-      const id = Number(body.id);
+      const id = body.id as string;
       if (!id) {
         return NextResponse.json({ error: '缺少时段 ID' }, { status: 400 });
       }
@@ -55,7 +55,7 @@ export async function POST(request: Request) {
 
     if (action === 'update') {
       const { updateTimeSlot } = await import('@/lib/store');
-      const id = Number(body.id);
+      const id = body.id as string;
       const { date, startTime, endTime, teacher, maxParticipants, status } = body;
       if (!id) {
         return NextResponse.json({ error: '缺少时段 ID' }, { status: 400 });

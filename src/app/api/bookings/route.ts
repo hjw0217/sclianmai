@@ -24,7 +24,7 @@ export async function GET(request: Request) {
     const timeslotId = searchParams.get('timeslotId');
 
     if (timeslotId) {
-      const bookings = await getBookingsByTimeSlot(Number(timeslotId));
+      const bookings = await getBookingsByTimeSlot(timeslotId);
       return NextResponse.json({ success: true, data: bookings.map(mapBooking) });
     }
 
@@ -46,14 +46,14 @@ export async function POST(request: Request) {
       if (!studentName || !phone || !timeSlotId) {
         return NextResponse.json({ error: '缺少必填字段' }, { status: 400 });
       }
-      const booking = await createBooking({ studentName, phone, requirement: requirement || '', timeSlotId: Number(timeSlotId) });
+      const booking = await createBooking({ studentName, phone, requirement: requirement || '', timeSlotId });
       return NextResponse.json({ success: true, data: mapBooking(booking) });
     }
 
     if (action === 'cancel') {
       const { id } = body;
       if (!id) return NextResponse.json({ error: '缺少预约ID' }, { status: 400 });
-      const booking = await cancelBooking(Number(id));
+      const booking = await cancelBooking(id);
       return NextResponse.json({ success: true, data: mapBooking(booking) });
     }
 
