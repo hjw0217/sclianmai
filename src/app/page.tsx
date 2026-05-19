@@ -140,12 +140,12 @@ export default function HomePage() {
                   />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="mb-1.5 block text-sm font-medium text-foreground">课程需求</label>
+                  <label className="mb-1.5 block text-sm font-medium text-foreground">演唱曲目</label>
                   <input
                     type="text"
                     value={requirement}
                     onChange={(e) => setRequirement(e.target.value)}
-                    placeholder="可选，如希望重点学习的内容、擅长曲目等"
+                    placeholder="可选，如《我的祖国》《茉莉花》等"
                     className="w-full rounded-lg border-none bg-muted px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary/30"
                   />
                 </div>
