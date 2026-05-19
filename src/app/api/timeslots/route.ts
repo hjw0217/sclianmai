@@ -45,7 +45,7 @@ export async function POST(request: Request) {
 
     if (action === 'delete') {
       const { deleteTimeSlot } = await import('@/lib/store');
-      const id = body.id as string;
+      const id = Number(body.id);
       if (!id) {
         return NextResponse.json({ error: '缺少时段 ID' }, { status: 400 });
       }
@@ -55,7 +55,8 @@ export async function POST(request: Request) {
 
     if (action === 'update') {
       const { updateTimeSlot } = await import('@/lib/store');
-      const { id, date, startTime, endTime, teacher, maxParticipants, status } = body;
+      const id = Number(body.id);
+      const { date, startTime, endTime, teacher, maxParticipants, status } = body;
       if (!id) {
         return NextResponse.json({ error: '缺少时段 ID' }, { status: 400 });
       }
@@ -77,11 +78,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: '缺少必填字段（日期、开始时间、结束时间）' }, { status: 400 });
     }
 
-    const id = `ts-${Date.now().toString(36)}`;
-    console.log('[API] Creating timeslot:', { id, date, startTime, endTime, teacher, maxParticipants });
+    console.log('[API] Creating timeslot:', { date, startTime, endTime, teacher, maxParticipants });
 
+    // 不传入 id，让数据库自动生成整数 ID
     const slot = await addTimeSlot({
-      id, date, start_time: startTime, end_time: endTime,
+      date, start_time: startTime, end_time: endTime,
       teacher: teacher || '',
       max_participants: String(maxParticipants || 1),
       status: 'available',

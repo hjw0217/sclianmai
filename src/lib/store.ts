@@ -3,7 +3,7 @@ import { getSupabaseClient } from '@/storage/database/supabase-client';
 // ========== Types ==========
 
 export interface TimeSlot {
-  id: string;
+  id: number;
   date: string;
   start_time: string;
   end_time: string;
@@ -15,7 +15,7 @@ export interface TimeSlot {
 }
 
 export interface Booking {
-  id: string;
+  id: number;
   booking_no: string;
   student_name: string;
   phone: string;
@@ -23,7 +23,7 @@ export interface Booking {
   teacher: string;
   date: string;
   time_slot: string;
-  timeslot_id: string;
+  timeslot_id: number;
   status: 'confirmed' | 'cancelled';
   created_at: string;
   updated_at: string | null;
@@ -86,7 +86,7 @@ export async function getTimeSlots(date?: string): Promise<TimeSlot[]> {
   return (data as TimeSlot[]) || [];
 }
 
-export async function getTimeSlotById(id: string): Promise<TimeSlot | null> {
+export async function getTimeSlotById(id: number): Promise<TimeSlot | null> {
   const client = getClient();
   const { data, error } = await client.from('timeslots').select('*').eq('id', id).maybeSingle();
   if (error) throw new Error(`查询时段失败: ${error.message}`);
@@ -100,14 +100,14 @@ export async function addTimeSlot(slot: Omit<TimeSlot, 'created_at' | 'updated_a
   return data as TimeSlot;
 }
 
-export async function updateTimeSlot(id: string, updates: Partial<Pick<TimeSlot, 'date' | 'start_time' | 'end_time' | 'teacher' | 'status' | 'max_participants'>>): Promise<TimeSlot> {
+export async function updateTimeSlot(id: number, updates: Partial<Pick<TimeSlot, 'date' | 'start_time' | 'end_time' | 'teacher' | 'status' | 'max_participants'>>): Promise<TimeSlot> {
   const client = getClient();
   const { data, error } = await client.from('timeslots').update({ ...updates, updated_at: new Date().toISOString() }).eq('id', id).select().single();
   if (error) throw new Error(`更新时段失败: ${error.message}`);
   return data as TimeSlot;
 }
 
-export async function deleteTimeSlot(id: string): Promise<void> {
+export async function deleteTimeSlot(id: number): Promise<void> {
   const client = getClient();
   // 先删除关联的预约记录
   const { error: bookingError } = await client.from('bookings').delete().eq('timeslot_id', id);
@@ -130,7 +130,7 @@ export async function createBooking(params: {
   studentName: string;
   phone: string;
   requirement: string;
-  timeSlotId: string;
+  timeSlotId: number;
 }): Promise<Booking> {
   // Get timeslot first
   const slot = await getTimeSlotById(params.timeSlotId);
@@ -206,7 +206,7 @@ export async function createBooking(params: {
   return data as Booking;
 }
 
-export async function cancelBooking(id: string): Promise<Booking> {
+export async function cancelBooking(id: number): Promise<Booking> {
   const client = getClient();
 
   const { data: booking, error: fetchError } = await client.from('bookings').select('*').eq('id', id).maybeSingle();
@@ -227,7 +227,7 @@ export async function cancelBooking(id: string): Promise<Booking> {
   return data as Booking;
 }
 
-export async function getBookingsByTimeSlot(timeslotId: string): Promise<Booking[]> {
+export async function getBookingsByTimeSlot(timeslotId: number): Promise<Booking[]> {
   const client = getClient();
   const { data, error } = await client.from('bookings').select('*').eq('timeslot_id', timeslotId).neq('status', 'cancelled');
   if (error) throw new Error(`查询预约失败: ${error.message}`);
