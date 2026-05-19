@@ -273,7 +273,7 @@ export async function seedInitialData(): Promise<void> {
         end_time: ts.end,
         teacher: teachers[teacherIdx],
         status: 'available',
-        max_participants: 10,
+        max_participants: '10',
       });
       slotIndex++;
     }
