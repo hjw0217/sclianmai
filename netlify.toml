@@ -2,9 +2,8 @@
 command = "npm install && npm run build"
 publish = ".next"
 
+[build.environment]
+NODE_VERSION = "18"
+
 [[plugins]]
 package = "@netlify/plugin-nextjs"
-
-[functions]
-# 禁止上传 node_modules，解决体积超限
-included_files = []
