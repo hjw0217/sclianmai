@@ -142,7 +142,7 @@ export async function createBooking(params: {
   const slotStart = new Date(`${slot.date}T${slot.start_time}:00`);
   if (now >= slotStart) throw new Error('该时段已开始，无法预约');
 
-  // Check monthly booking limit: one booking per phone per month
+  // Check monthly booking limit: two bookings per phone per month
   const client = getClient();
   const [sy, sm] = slot.date.split('-').map(Number);
   const monthStart = `${sy}-${String(sm).padStart(2, '0')}-01`;
@@ -157,8 +157,8 @@ export async function createBooking(params: {
     .lt('date', nextMonth);
 
   if (checkError) throw new Error(`查询预约记录失败: ${checkError.message}`);
-  if (existingBookings && existingBookings.length > 0) {
-    throw new Error('该手机号本月已有预约，每人每月仅限预约一次');
+  if (existingBookings && existingBookings.length >= 2) {
+    throw new Error('该手机号本月预约已达上限，每人每月限预约两次');
   }
 
   // Check max participants limit
