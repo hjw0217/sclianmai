@@ -161,6 +161,20 @@ export async function createBooking(params: {
     throw new Error('该手机号本月预约已达上限，每人每月限预约两次');
   }
 
+  // Check if this phone has already booked this time slot
+  const { data: sameSlotBooking, error: sameSlotError } = await client
+    .from('bookings')
+    .select('id')
+    .eq('phone', params.phone)
+    .eq('timeslot_id', slot.id)
+    .eq('status', 'confirmed')
+    .maybeSingle();
+
+  if (sameSlotError) throw new Error(`查询预约记录失败: ${sameSlotError.message}`);
+  if (sameSlotBooking) {
+    throw new Error('该手机号已预约过此时间段，请勿重复预约');
+  }
+
   // Check max participants limit
   const { data: currentBookings } = await client
     .from('bookings')
