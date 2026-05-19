@@ -70,7 +70,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: true, data: mapSlot(slot) });
     }
 
-    // 默认：新增时段
+    // 默认：新增时段 (action === 'add' 或未指定 action)
     const { addTimeSlot } = await import('@/lib/store');
     const { date, startTime, endTime, teacher, maxParticipants } = body;
     if (!date || !startTime || !endTime) {
@@ -78,14 +78,18 @@ export async function POST(request: Request) {
     }
 
     const id = `ts-${Date.now().toString(36)}`;
+    console.log('[API] Creating timeslot:', { id, date, startTime, endTime, teacher, maxParticipants });
+
     const slot = await addTimeSlot({
       id, date, start_time: startTime, end_time: endTime,
       teacher: teacher || '',
       max_participants: String(maxParticipants || 1),
       status: 'available',
     });
+    console.log('[API] Timeslot created successfully:', slot.id);
     return NextResponse.json({ success: true, data: mapSlot(slot) });
   } catch (err) {
+    console.error('[API] Error in POST /api/timeslots:', err);
     const message = err instanceof Error ? err.message : '操作失败';
     return NextResponse.json({ error: message }, { status: 500 });
   }

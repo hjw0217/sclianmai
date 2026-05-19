@@ -183,12 +183,12 @@ export default function AdminPage() {
           body: JSON.stringify({ action: 'update', token, id: editingSlot.id, ...formData }),
         });
         const data = await res.json();
-        if (data.success) {
+        if (res.ok && data.success) {
           showMessage('success', '时段已更新');
           setShowModal(false);
           loadData();
         } else {
-          showMessage('error', data.error);
+          showMessage('error', data.error || '操作失败');
         }
       } else {
         const res = await fetch('/api/timeslots', {
@@ -197,16 +197,17 @@ export default function AdminPage() {
           body: JSON.stringify({ action: 'add', token, ...formData }),
         });
         const data = await res.json();
-        if (data.success) {
+        if (res.ok && data.success) {
           showMessage('success', '时段已添加');
           setShowModal(false);
           loadData();
         } else {
-          showMessage('error', data.error);
+          showMessage('error', data.error || '操作失败');
         }
       }
-    } catch {
-      showMessage('error', '网络错误');
+    } catch (err) {
+      console.error('保存时段失败:', err);
+      showMessage('error', '网络错误，请稍后重试');
     }
   };
 

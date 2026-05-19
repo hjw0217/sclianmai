@@ -80,15 +80,22 @@ function getSupabaseCredentials(): SupabaseCredentials {
   loadEnv();
 
   // Support multiple env var naming conventions
+  // Priority: COZE_ > standard > NEXT_PUBLIC_
   const url = process.env.COZE_SUPABASE_URL || process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anonKey = process.env.COZE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!url) {
-    throw new Error('SUPABASE_URL (or NEXT_PUBLIC_SUPABASE_URL) is not set');
+    console.error('[Supabase] Missing URL. Checked env vars: COZE_SUPABASE_URL, SUPABASE_URL, NEXT_PUBLIC_SUPABASE_URL');
+    throw new Error('SUPABASE_URL is not set. Please configure Supabase environment variables in Netlify.');
   }
 
-  // anonKey may be unavailable on Vercel; use service role key as fallback
-  return { url, anonKey: anonKey || '' };
+  if (!anonKey) {
+    console.error('[Supabase] Missing ANON_KEY. Checked env vars: COZE_SUPABASE_ANON_KEY, SUPABASE_ANON_KEY, NEXT_PUBLIC_SUPABASE_ANON_KEY');
+    throw new Error('SUPABASE_ANON_KEY is not set. Please configure Supabase environment variables in Netlify.');
+  }
+
+  console.log('[Supabase] Credentials loaded successfully, URL:', url.substring(0, 30) + '...');
+  return { url, anonKey };
 }
 
 function getSupabaseServiceRoleKey(): string | undefined {
@@ -106,10 +113,6 @@ function getSupabaseClient(token?: string): SupabaseClient {
     key = anonKey;
   } else {
     key = serviceRoleKey ?? anonKey;
-  }
-
-  if (!key) {
-    throw new Error('No Supabase key available. Set SUPABASE_SERVICE_ROLE_KEY or SUPABASE_ANON_KEY.');
   }
 
   const globalOptions: Record<string, any> = {};
