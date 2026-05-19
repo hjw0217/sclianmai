@@ -9,7 +9,7 @@ export interface TimeSlot {
   end_time: string;
   teacher: string;
   status: 'available' | 'booked';
-  max_participants: number;
+  max_participants: string;
   created_at: string;
   updated_at: string | null;
 }
@@ -168,7 +168,7 @@ export async function createBooking(params: {
     .eq('timeslot_id', slot.id)
     .eq('status', 'confirmed');
   const currentCount = currentBookings?.length || 0;
-  const maxParticipants = slot.max_participants || 1;
+  const maxParticipants = Number(slot.max_participants) || 1;
   if (currentCount >= maxParticipants) {
     throw new Error('该时段预约人数已满');
   }

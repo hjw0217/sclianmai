@@ -64,7 +64,7 @@ export async function POST(request: Request) {
         ...(startTime && { start_time: startTime }),
         ...(endTime && { end_time: endTime }),
         ...(teacher !== undefined && { teacher }),
-        ...(maxParticipants !== undefined && { max_participants: maxParticipants }),
+        ...(maxParticipants !== undefined && { max_participants: String(maxParticipants) }),
         ...(status && { status }),
       });
       return NextResponse.json({ success: true, data: mapSlot(slot) });
@@ -81,7 +81,7 @@ export async function POST(request: Request) {
     const slot = await addTimeSlot({
       id, date, start_time: startTime, end_time: endTime,
       teacher: teacher || '',
-      max_participants: maxParticipants || 1,
+      max_participants: String(maxParticipants || 1),
       status: 'available',
     });
     return NextResponse.json({ success: true, data: mapSlot(slot) });
