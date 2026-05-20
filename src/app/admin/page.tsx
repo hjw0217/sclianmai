@@ -76,7 +76,7 @@ export default function AdminPage() {
     }
     const lines = [
       `${slot.teacher} ${slot.date} ${slot.startTime}-${slot.endTime}`,
-      ...slotBookings.map((b, i) => `${i + 1}. ${b.studentName} ${b.phone}`),
+      ...slotBookings.map((b, i) => `${i + 1}. ${b.studentName} ${b.phone} ${b.requirement || ''} ${b.teacherName || ''}`),
     ];
     const text = lines.join('\n');
     navigator.clipboard.writeText(text).then(() => {
