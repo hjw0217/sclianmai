@@ -20,6 +20,7 @@ export interface Booking {
   student_name: string;
   phone: string;
   requirement: string | null;
+  teacher_name: string | null;
   teacher: string;
   date: string;
   time_slot: string;
@@ -130,6 +131,7 @@ export async function createBooking(params: {
   studentName: string;
   phone: string;
   requirement: string;
+  teacherName: string;
   timeSlotId: string;
 }): Promise<Booking> {
   // Get timeslot first
@@ -196,6 +198,7 @@ export async function createBooking(params: {
     student_name: params.studentName,
     phone: params.phone,
     requirement: params.requirement || null,
+    teacher_name: params.teacherName || null,
     teacher: slot.teacher,
     date: slot.date,
     time_slot: `${slot.start_time}-${slot.end_time}`,

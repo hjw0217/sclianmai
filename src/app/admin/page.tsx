@@ -35,6 +35,7 @@ interface Booking {
   studentName: string;
   phone: string;
   requirement: string;
+  teacherName: string;
   teacher: string;
   date: string;
   timeSlot: string;
@@ -592,6 +593,7 @@ export default function AdminPage() {
                     <tr className="border-b border-border/20 bg-muted/50">
                       <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">预约编号</th>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">学员</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">班主任</th>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">讲师</th>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">预约时间</th>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">状态</th>
@@ -606,6 +608,7 @@ export default function AdminPage() {
                       >
                         <td className="px-4 py-3 text-sm font-medium text-foreground">#{b.bookingNo}</td>
                         <td className="px-4 py-3 text-sm text-foreground">{b.studentName}</td>
+                        <td className="px-4 py-3 text-sm text-foreground">{b.teacherName || '-'}</td>
                         <td className="px-4 py-3 text-sm text-foreground">{b.teacher}</td>
                         <td className="px-4 py-3 text-sm text-foreground">
                           {b.date} {b.timeSlot}
@@ -634,7 +637,7 @@ export default function AdminPage() {
                     ))}
                     {bookings.length === 0 && (
                       <tr>
-                        <td colSpan={6} className="px-4 py-8 text-center text-sm text-muted-foreground">
+                        <td colSpan={7} className="px-4 py-8 text-center text-sm text-muted-foreground">
                           暂无预约记录
                         </td>
                       </tr>

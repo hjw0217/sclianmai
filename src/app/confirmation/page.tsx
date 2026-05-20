@@ -3,7 +3,7 @@
 import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Navbar } from '@/components/navbar';
-import { CheckCircle2, Home, Clock, User, Calendar, AlertCircle, Mic, Phone } from 'lucide-react';
+import { CheckCircle2, Home, Clock, User, Calendar, AlertCircle, Mic, Phone, Copy } from 'lucide-react';
 import Link from 'next/link';
 
 interface Booking {
@@ -12,6 +12,7 @@ interface Booking {
   studentName: string;
   phone: string;
   requirement: string;
+  teacherName: string;
   teacher: string;
   date: string;
   timeSlot: string;
@@ -23,6 +24,19 @@ function ConfirmationContent() {
   const searchParams = useSearchParams();
   const [booking, setBooking] = useState<Booking | null>(null);
   const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    if (!booking) return;
+    const text = `预约编号：${booking.bookingNo}
+演唱曲目：${booking.requirement || '未填写'}
+班主任名字：${booking.teacherName || '未填写'}
+预约时间：${booking.date} ${booking.timeSlot}`;
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
 
   useEffect(() => {
     const id = searchParams.get('id');
@@ -148,6 +162,12 @@ function ConfirmationContent() {
                   <div className="text-xs font-semibold text-foreground sm:text-sm">{booking.requirement}</div>
                 </div>
               )}
+              {booking.teacherName && (
+                <div className="mt-2 rounded-lg bg-muted px-2.5 py-2 sm:mt-3 sm:px-3">
+                  <div className="text-[10px] text-muted-foreground sm:text-xs">班主任名字</div>
+                  <div className="text-xs font-semibold text-foreground sm:text-sm">{booking.teacherName}</div>
+                </div>
+              )}
             </div>
 
             {/* Booking No & Status */}
@@ -165,6 +185,13 @@ function ConfirmationContent() {
 
         {/* Actions */}
         <div className="mx-auto mt-6 flex max-w-lg items-center justify-center gap-3 sm:mt-8 sm:gap-4">
+          <button
+            onClick={handleCopy}
+            className="flex items-center gap-1.5 rounded-xl bg-card border border-border px-6 py-2.5 text-sm font-semibold text-foreground shadow-card transition-all hover:-translate-y-0.5 hover:shadow-float sm:px-8 sm:py-3"
+          >
+            <Copy className="h-4 w-4" />
+            {copied ? '已复制' : '复制信息'}
+          </button>
           <Link
             href="/"
             className="flex items-center gap-1.5 rounded-xl bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground shadow-card transition-all hover:-translate-y-0.5 hover:shadow-float sm:px-8 sm:py-3"
