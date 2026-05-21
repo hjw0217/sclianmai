@@ -70,7 +70,7 @@ export default function HomePage() {
 
   const handleSubmit = async () => {
     setError('');
-    if (!studentName.trim()) { setError('请输入学员姓名'); return; }
+    if (!studentName.trim()) { setError('请输入微信昵称'); return; }
     if (!phone.trim()) { setError('请输入联系电话'); return; }
     if (!selectedSlot) { setError('请选择预约时段'); return; }
 
@@ -122,12 +122,12 @@ export default function HomePage() {
               </h2>
               <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
                 <div>
-                  <label className="mb-1.5 block text-sm font-medium text-foreground">学员姓名</label>
+                  <label className="mb-1.5 block text-sm font-medium text-foreground">微信昵称</label>
                   <input
                     type="text"
                     value={studentName}
                     onChange={(e) => setStudentName(e.target.value)}
-                    placeholder="请输入学员姓名"
+                    placeholder="请输入微信昵称"
                     className="w-full rounded-lg border-none bg-muted px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary/30"
                   />
                 </div>

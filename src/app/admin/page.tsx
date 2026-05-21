@@ -592,7 +592,7 @@ export default function AdminPage() {
                   <thead>
                     <tr className="border-b border-border/20 bg-muted/50">
                       <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">预约编号</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">学员</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">微信昵称</th>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">班主任</th>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">讲师</th>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">预约时间</th>

@@ -148,7 +148,7 @@ function ConfirmationContent() {
               </h2>
               <div className="mt-3 grid grid-cols-2 gap-2 sm:gap-3">
                 <div className="rounded-lg bg-muted px-2.5 py-2 sm:px-3">
-                  <div className="text-[10px] text-muted-foreground sm:text-xs">姓名</div>
+                  <div className="text-[10px] text-muted-foreground sm:text-xs">微信昵称</div>
                   <div className="text-xs font-semibold text-foreground sm:text-sm">{booking.studentName}</div>
                 </div>
                 <div className="rounded-lg bg-muted px-2.5 py-2 sm:px-3">
