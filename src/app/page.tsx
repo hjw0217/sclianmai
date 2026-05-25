@@ -171,8 +171,8 @@ export default function HomePage() {
                 选择时间
               </h2>
 
-              {/* Date selector */}
-              <div className="mt-4 flex gap-1.5 overflow-x-auto pb-2 sm:gap-2">
+              {/* Date selector - 两行显示，每行7天 */}
+              <div className="mt-4 grid grid-cols-7 gap-1.5 sm:gap-2">
                 {dates.map((d) => {
                   const isSelected = selectedDate === d.date;
                   return (
@@ -183,7 +183,7 @@ export default function HomePage() {
                         setSelectedDate(d.date);
                         setSelectedSlot('');
                       }}
-                      className={`flex shrink-0 flex-col items-center rounded-lg px-3 py-2 text-center transition-all sm:px-4 sm:py-2.5 ${
+                      className={`flex flex-col items-center rounded-lg px-2 py-2 text-center transition-all sm:px-3 sm:py-2.5 ${
                         isSelected
                           ? 'bg-primary text-primary-foreground'
                           : 'bg-muted text-foreground hover:bg-surface-container-high'
