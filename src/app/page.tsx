@@ -44,11 +44,11 @@ export default function HomePage() {
       .catch(() => {});
   }, []);
 
-  // Get next 7 days
+  // Get next 14 days (2 weeks)
   const dates = useCallback(() => {
     const result: { date: string; label: string; weekday: string }[] = [];
     const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 14; i++) {
       const d = new Date();
       d.setDate(d.getDate() + i);
       const dateStr = d.toISOString().slice(0, 10);
