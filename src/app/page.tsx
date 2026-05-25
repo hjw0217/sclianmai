@@ -147,7 +147,7 @@ export default function HomePage() {
                     type="text"
                     value={requirement}
                     onChange={(e) => setRequirement(e.target.value)}
-                    placeholder="可选，如《我的祖国》《茉莉花》等"
+                    placeholder=""
                     className="w-full rounded-lg border-none bg-muted px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary/30"
                   />
                 </div>
